@@ -1,4 +1,4 @@
-1隐式全局变量：在变量之前没有用var定义，该变量变为隐式全局变量:
+1隐式全局变量：在变量之前没有用var定义，该变量变为隐式全局变量：
 result = x + y; //result为隐式全局变量
 var a = b = 0; //b为隐式全局变量
 a = b = 0; //a b均为隐式全局变量
@@ -7,3 +7,67 @@ a = b = 0; //a b均为隐式全局变量
 通过var创建的全局变量（任何函数之外的程序中创建）是不能被删除的。
 无var创建的隐式全局变量（无视是否在函数中创建）是能被删除的。
 
+2预解析中var散布的问题:当你使用了一个变量，然后不久在函数中又重新声明的话，就可能产生逻辑错误。
+对于JavaScript，只 要你的变量是在同一个作用域中（同一函数），它都被当做是声明的，即使是它在var声明前使用的时候。
+myname = "global"; // 全局变量
+function func() {
+    alert(myname); // "global"
+    alert(myname); // "global"
+}
+func();
+// 反例
+myname = "global"; // 全局变量
+function func() {
+    alert(myname); // "undefined"
+    var myname = "local";
+    alert(myname); // "local"
+}
+func();
+
+3for循环的建议：
+// 反例
+for (var i = 0; i < myarray.length; i++) {
+   // 使用myarray[i]做点什么
+}
+3.1减少myarray.length的计算次数：for (var i = 0, max = myarray.length; i < max; i++)；
+3.2用i=i+1或者i+=1代替i++；
+3.3注意这里的i是全局变量；
+
+4避免隐式类型转换：JavaScript的变量在比较的时候会隐式类型转换。这就是为什么一些诸如：false == 0 或 “” == 0 返回的结果是true。为避免引起混乱的隐含类型转换，在你比较值和表达式类型的时候始终使用===和!==操作符。
+var zero = 0;
+if (zero === false) {
+   // 不执行，因为zero为0, 而不是false
+}
+
+// 反面示例
+if (zero == false) {
+   // 执行了...
+}
+
+5避免eval()：此方法接受任意的字符串，并当作JavaScript代码来处理。
+5.1当有问题的代码是事先知道的（不是运行时确定的），没有理由使用eval()。如果代码是在运行时动态生成，有一个更好的方式不使用eval而达到同样的目标；
+使用eval()也带来了安全隐患，因为被执行的代码（例如从网络来）可能已被篡改。这是个很常见的反面教材，当处理Ajax请求得到的JSON 相应的时候。在这些情况下，最好使用JavaScript内置方法来解析JSON相应，以确保安全和有效。若浏览器不支持JSON.parse()，你可 以使用来自JSON.org的库；
+// 反面示例
+var property = "name";
+alert(eval("obj." + property));
+// 更好的
+var property = "name";
+alert(obj[property]);
+5.2使用eval()也带来了安全隐患，因为被执行的代码（例如从网络来）可能已被篡改。这是个很常见的反面教材，当处理Ajax请求得到的JSON 相应的时候。在这些情况下，最好使用JavaScript内置方法来解析JSON相应，以确保安全和有效。若浏览器不支持JSON.parse()，你可 以使用来自JSON.org的库；
+5.3同样重要的是要记住，给setInterval(), setTimeout()和Function()构造函数传递字符串，大部分情况下，与使用eval()是类似的，因此要避免。在幕后，JavaScript仍需要评估和执行你给程序传递的字符串；
+// 反面示例
+setTimeout("myFunc()", 1000);
+setTimeout("myFunc(1, 2, 3)", 1000);
+// 更好的
+setTimeout(myFunc, 1000);
+setTimeout(function () {
+   myFunc(1, 2, 3);
+}, 1000);
+
+6parseInt()下的数值转换：
+使用parseInt()你可以从字符串中获取数值，该方法接受另一个基数参数，这经常省略，但不应该。当字符串以”0″开头的时候就有可能会出问 题，例如，部分时间进入表单域，在ECMAScript 3中，开头为”0″的字符串被当做8进制处理了，但这已在ECMAScript 5中改变了。为了避免矛盾和意外的结果，总是指定基数参数。
+// 如果你忽略了基数参数，如parseInt(year)，返回的值将是0，因为“09”被当做8进制（好比执行 parseInt( year, 8 )），而09在8进制中不是个有效数字
+var month = "06",
+    year = "09";
+month = parseInt(month, 10);
+year = parseInt(year, 10);
