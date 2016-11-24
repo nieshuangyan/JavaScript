@@ -1,5 +1,115 @@
-
-
-
 1效果：每秒进行循环轮播；点击左右按钮自动跳转；点击标题1、2、3...自动跳转到该页
-2实现原理：
+2实现原理：主要隐藏不相干的图片，显示相关图片达到效果
+3实现代码
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>jquery版图片轮播</title>
+        <style type="text/css">
+      		.container{
+      		width:100%;
+      		text-align:center;
+      		position:relative;
+      		}
+      		.container .pagination{
+            width:100%;
+        		position: absolute;
+        		bottom:10%;
+      		}
+          .container .leftRight{
+        		width:100%;
+        		position: absolute;
+        		bottom:50%;
+          }
+          .leftRight a:not(:last-child){
+            padding-right:48%;
+          }
+          .innerwraper img{
+        		width:55%;
+        		height:45%;
+      		}
+          /* .innerwraper img:not(:first-child){
+                  		display: none;
+                		} */
+      		.pagination .active{
+      		  color:#FFFFFF;
+      		}
+      </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="inner clearfix">
+                <div class="innerwraper"><img src="img/1.jpg" alt="" /></div>
+                <div class="innerwraper" ><img src="img/2.jpg" alt="" /></div>
+                <div class="innerwraper"><img src="img/3.jpg" alt="" /></div>
+                <div class="innerwraper"><img src="img/4.jpg" alt="" /></div>
+                <div class="innerwraper"><img src="img/5.jpg" alt="" /></div>
+                <div class="innerwraper"><img src="img/6.jpg" alt="" /></div>
+                <!-- <div class="innerwraper"><img src="img/1.jpg" alt="" style="display:none"/></div> -->
+            </div>
+            <div class="pagination">
+                <span class="active">1</span>
+                <span>2</span>
+                <span>3</span>
+                <span>4</span>
+                <span>5</span>
+                <span>6</span>
+
+            </div>
+      			<div class="leftRight">
+                  <a href="javascript:void(0)" class="left-arrow" id="left">&lt;</a>
+                  <a href="javascript:void(0)" class="right-arrow" id="right">&gt;</a>
+      		  </div>
+      </div>
+    <script src="jquery-2.1.4.min.js"></script>
+		<script>
+		var
+      a=1,
+  		flag=true;
+		function run(c,d,e){
+			if(flag || d){
+  			var b=a%6;
+  			if(c){
+  				b=c%6;
+  			}
+  			$(".innerwraper img").css("display","none");
+  			$(".innerwraper img").eq(b-1).css("display","inline-block");
+  			$(".pagination span").removeClass("active");
+  			$(".pagination span").eq(b-1).addClass("active");
+  			if(e){
+  				a=Math.abs(a-1);
+  			}else{
+  				a=Math.abs(a+1);
+  			}
+			}
+		}
+		run();
+		setInterval('run()', 1000);
+		$(".pagination").on("click","span",function(){
+			flag=false;
+			var d=Number($(this).html());
+			run(d);
+			a=d;
+			flag=true;
+		});
+		$("#left").on("click",function(){
+			flag=false;
+			var d=Number($(".pagination span.active").html())-1;
+			console.log(d);
+			run(d,true,true);
+			a=d;
+			flag=true;
+		});
+		$("#right").on("click",function(){
+			flag=false;
+			var d=Number($(".pagination span.active").html())+1;
+			console.log(d);
+			run(d,true);
+			a=d;
+			flag=true;
+		});
+		</script>
+    </body>
+</html>
+4代码连接http://pan.baidu.com/s/1hrPInVA
