@@ -14,3 +14,4 @@ JavaScript学习心得，本篇全部依据自己的理解，如有错误，欢�
   5ECMAScript 6简介(阮一峰前辈)：http://es6.ruanyifeng.com/#docs/intro
  
  ## 重拾javascript
+- [javascript的内存管理](docs/issue-1.md)
