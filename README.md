@@ -15,3 +15,4 @@ JavaScript学习心得，本篇全部依据自己的理解，如有错误，欢�
  
  ## 重拾javascript
 - [javascript的内存管理](docs/issue-1.md)
+- [javascript变量](docs/issue-2.md)
