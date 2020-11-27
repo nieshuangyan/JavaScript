@@ -1,7 +1,7 @@
 # JavaScript
 JavaScript学习心得，本篇全部依据自己的理解，如有错误，欢迎指正
 
-js基础网站：
+## js基础网站：
 
   1深入理解JavaScript原型与闭包(王福朋前辈博客)：http://www.cnblogs.com/wangfupeng1988/p/3977924.html
 
@@ -12,3 +12,5 @@ js基础网站：
   4(阮一峰前辈博客)：http://www.ruanyifeng.com/blog/
 
   5ECMAScript 6简介(阮一峰前辈)：http://es6.ruanyifeng.com/#docs/intro
+ 
+ ## 重拾javascript
