@@ -85,3 +85,7 @@ f() // obj和obj2永远不会被垃圾回收
 
 ## Concurrency model and Event Loop
 
+### Javascript是单线程吗？
+
+
+
