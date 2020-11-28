@@ -93,4 +93,25 @@ Javascript是单线程，即同一时刻只能做一件事情。Javascript作为
 
 ### Javascript执行机制
 
-java
+Javascript的内存模型图
+https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/EventLoop
+
+以执行函数为例讲解运行机制
+
+```javascript
+function f() {
+  console.log('我是f函数')
+}
+
+function f2() {
+  console.log('我是f2函数')
+}
+
+function f3() {
+  console.log('我是f2函数')
+  setTimeout(f2(), 1)
+  f();
+}
+
+f3()
+```
