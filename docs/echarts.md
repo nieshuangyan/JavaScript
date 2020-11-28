@@ -38,14 +38,14 @@ this.chart.setOption({...})
 ```
 
 一开始是不满足isEmpty、isCarouse、isForm，class="chart"的div被渲染出来，此时echarts也会被渲染出来
-数据交互过程中，突然满足isEmpty，就需要执行
+数据交互过程中，突然满足isEmpty，视图切换，就需要执行
 
 ```javascript
 this.chart.clear()
 ```
 此时，class="empty"的div被错误渲染，该div渲染混乱，之前echarts的画布canvas标签渲染在该div的子元素上，且之前canvas直接父标签的属性强加到该div上
 
-修改后正常渲染
+修改后正常渲染，视图切换也正常渲染
 
 ```vue
 <!-- vue -->
