@@ -15,15 +15,20 @@ vue出错代码
 <div v-else-if="isForm" class="form"><div>
 <div v-else class="chart chart-box" ref="chartBox"><div>  <!-- echarts渲染在该div上面 -->
 
-<!-- 一开始浏览器html渲染结果 -->
-<div data-v-43edeb20="" class="inherit chart-box" _echarts_instance_="ec_1606549263501" style="-webkit-tap-highlight-color: transparent; user-select: none; position: relative;">
-  <div style="position: relative; width: 605px; height: 173px; padding: 0px; margin: 0px; border-width: 0px; cursor: default;">
-    <canvas data-zr-dom-id="zr_0" width="605" height="173" style="position: absolute; left: 0px; top: 0px; width: 605px; height: 173px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas>
+<!-- 不满足isEmpty、isCarouse、isForm浏览器html渲染结果 -->
+<div data-v-43edeb20="" class="chart chart-box" _echarts_instance_="ec_1606549263583" style="-webkit-tap-highlight-color: transparent; user-select: none; position: relative;">   <div style="position: relative; width: 599px; height: 173px; padding: 0px; margin: 0px; border-width: 0px; cursor: default;">
+    <canvas data-zr-dom-id="zr_0" width="599" height="173" style="position: absolute; left: 0px; top: 0px; width: 599px; height: 173px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas>
   </div>
+  <div>/div>
 </div>
 
 <!-- 数据交互过程中，突然满足isEmpty的浏览器html渲染结果 -->
-
+<div data-v-43edeb20="" class="empty" _echarts_instance_="ec_1606549263583" style="-webkit-tap-highlight-color: transparent; user-select: none; position: relative;">
+  <div style="position: relative; width: 599px; height: 173px; padding: 0px; margin: 0px; border-width: 0px; cursor: default;">
+    <canvas data-zr-dom-id="zr_0" width="599" height="173" style="position: absolute; left: 0px; top: 0px; width: 599px; height: 173px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas>
+  </div>
+  无供应商相关数据
+</div>
 ```
 
 ```javascript
@@ -38,7 +43,7 @@ this.chart.setOption({...})
 ```javascript
 this.chart.clear()
 ```
-此时，class="empty"的div被错误渲染，{{emptyContent}}没有显示在该div上，之前echarts的画布canvas标签渲染在该div的子元素上，且之前canvas直接父标签的属性全部强加到该div上
+此时，class="empty"的div被错误渲染，该div渲染混乱，之前echarts的画布canvas标签渲染在该div的子元素上，且之前canvas直接父标签的属性强加到该div上
 
 修改后正常渲染
 
@@ -52,9 +57,12 @@ this.chart.clear()
 <div> 
 
 <!-- 不满足isEmpty、isCarouse、isForm浏览器html渲染结果 -->
-<div data-v-43edeb20="" class="chart chart-box" _echarts_instance_="ec_1606548418957" style="-webkit-tap-highlight-color: transparent; user-select: none; position: relative;">
-  <div style="position: relative; width: 605px; height: 173px; padding: 0px; margin: 0px; border-width: 0px; cursor: default;">
-    <canvas data-zr-dom-id="zr_0" width="605" height="173" style="position: absolute; left: 0px; top: 0px; width: 605px; height: 173px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas>
+<div data-v-43edeb20="" class="inherit chart-box" _echarts_instance_="ec_1606551227626" style="-webkit-tap-highlight-color: transparent; user-select: none; position: relative;">   <div style="position: relative; width: 599px; height: 173px; padding: 0px; margin: 0px; border-width: 0px; cursor: default;">
+    <canvas data-zr-dom-id="zr_0" width="599" height="173" style="position: absolute; left: 0px; top: 0px; width: 599px; height: 173px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas>
   </div>
+  <div></div>
 </div>
+
+<!-- 数据交互过程中，突然满足isEmpty的浏览器html渲染结果 -->
+<div data-v-43edeb20="" class="empty">无供应商相关数据</div>
 ```
