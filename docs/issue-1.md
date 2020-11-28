@@ -108,7 +108,7 @@ function f2() {
 }
 
 function f3() {
-  console.log('我是f2函数')
+  console.log('我是f3函数')
   setTimeout(f2(), 1)
   f();
 }
