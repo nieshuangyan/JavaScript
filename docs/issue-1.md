@@ -133,4 +133,27 @@ f3()
 
 **当然通过某些手段能让阻塞执行类型函数变成立即执行函数，会被主线程立即执行而不被塞入Queue等待执行队列**
 
+- 立即执行函数
+```javascript
+function f() {
+  console.log('我是f函数')
+}
+
+function f2() {
+  console.log('我是f2函数')
+}
+
+function f3() {
+  console.log('我是f3函数')
+  setTimeout(f2(), 1) // 此时f2不会被塞入Queue，而会在主线程立即执行
+  f();
+}
+
+f3()
+// 结果
+我是f3函数
+我是f2函数
+我是f函数
+```
+
 
