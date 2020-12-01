@@ -95,6 +95,9 @@ Javascript是单线程，即同一时刻只能做一件事情。Javascript作为
 
 Javascript的内存模型图
 https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/EventLoop
+栈(Stack)：函数调用形成了一个由若干帧组成的栈
+堆(Heap)：对象被分配在堆中
+队列(Queue)：一个 JavaScript 运行时包含了一个待处理消息的消息队列，每一个消息都关联着一个用以处理这个消息的回调函数，只有满足了消息才能触发回调函数
 
 以执行函数为例讲解运行机制
 
@@ -109,9 +112,22 @@ function f2() {
 
 function f3() {
   console.log('我是f3函数')
-  setTimeout(f2(), 1)
+  setTimeout(f2, 1)
   f();
 }
 
 f3()
 ```
+当调用 f3 时，第一个帧被创建并压入栈中，帧中包含了 f3 的参数和局部变量。
+当执行setTimeout函数时候，延迟执行f2，此时浏览器不可能等待1ms之后再执行f2，会新增一个消息记录毫秒数并把f2作为消息Callback放入Queue，接着会继续执行下面语句。
+当 f3 调用 f 时，第二个帧被创建并被压入栈中，放在第一个帧之上，帧中包含 f 的参数和局部变量。当 f 执行完毕然后返回时，第二个帧就被弹出栈（剩下 f3 函数的调用帧 ）。当f3 也执行完毕然后返回时，第一个帧也被弹出，栈就被清空了。
+此时浏览器是空闲的，就会去监听Queue，一旦某个Messahe满足条件，主线程就会从Queue中取出该Message的Callback回调函数压入栈中(如果此时有两个同时满足条件的Message，会先取出先进入Queue的Message的Callback回调执行)，继续执行，执行完弹出帧，继续去监听Queue中是否存在满足条件的Message......直到清空Queue
+
+因此上面代码执行的结果是
+```javascript
+我是f3函数
+我是f函数
+我是f2函数
+```
+** JavaScript运行机制，永远在单线程上按顺序运行，当遇到阻塞执行类型函数(需要等待某个结果才能执行的函数)时候，线程会把该阻塞执行类型函数塞入Queue等待调用执行，之后会继续依次执行，直到语句执行完成，此时主线程空闲，会会去监听Queue，一旦某个Messahe满足条件，主线程就会从Queue中取出该Message的Callback回调函数压入栈中(如果此时有两个同时满足条件的Message，会先取出先进入Queue的Message的Callback回调执行)到主线程执行，执行完继续去监听Queue中是否存在满足条件的Message，直到Queue为空。
+当然通过某些手段能让阻塞执行类型函数变成立即执行函数，会被主线程立即执行而不被塞入Queue等待执行队列 **
